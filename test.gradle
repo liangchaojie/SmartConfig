@@ -1,4 +1,11 @@
 def targetFile = new File("./app/src/main/java/com/smartconfig/Config.java")
+
+//该接口返回的是文件内容对应的byte[]
+def bytes = targetFile.getBytes()
+//与上述接口对应，还可以直接使用targetFile.bytes这个属性获取文件内容
+def original = new String(bytes)
+
+
 def useGson = "package com.smartconfig;\n" +
         "\n" +
         "import com.google.gson.Gson;\n" +
@@ -20,7 +27,13 @@ def noUseGson = "package com.smartconfig;\n" +
         "    }\n" +
         "}"
 
+
+//修改Config.java类之前判断Config.java是不是最新的代码，如果不是最新的代码就要爆出异常~
+if (original != useGson && original != noUseGson) {
+    throw new RuntimeException("Config.javay类已经被修改过,需要更新才能编译!请找梁超杰")
+}
 //这里获取的实际是Java中的BufferedOutputStream
 targetFile.withOutputStream { osm ->
     osm.write((isUseGson.toBoolean() ? useGson : noUseGson).getBytes())
 }
+
