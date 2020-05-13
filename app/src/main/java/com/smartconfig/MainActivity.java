@@ -3,8 +3,8 @@ package com.smartconfig;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -12,14 +12,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        doLogic(true);
+        doLogic();
     }
 
-    private void doLogic(boolean isUseGson) {
-        if (isUseGson) {
-            Gson gson = new Gson();
-        } else {
-            System.out.println("不使用Gson");
-        }
+    private void doLogic() {
+        Config config = new Config();
+        Object o = config.build();
     }
 }

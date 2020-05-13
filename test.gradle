@@ -1,0 +1,26 @@
+def targetFile = new File("./app/src/main/java/com/smartconfig/Config.java")
+def useGson="package com.smartconfig;\n" +
+        "\n" +
+        "import com.google.gson.Gson;\n" +
+        "\n" +
+        "public class Config {\n" +
+        "    public Object build() {\n" +
+        "        return new Gson();\n" +
+        "    }\n" +
+        "}"
+
+def  noUseGson="package com.smartconfig;\n" +
+        "\n" +
+        "import com.google.gson.Gson;\n" +
+        "\n" +
+        "public class Config {\n" +
+        "    public Object build() {\n" +
+        "       // return new Gson();\n" +
+        "        return null;\n" +
+        "    }\n" +
+        "}"
+
+//这里获取的实际是Java中的BufferedOutputStream
+targetFile.withOutputStream { osm ->
+    osm.write((noUseGson).getBytes())
+}
