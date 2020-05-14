@@ -1,14 +1,17 @@
 def targetFile = new File("./app/src/main/java/com/smartconfig/Config.java")
 def targetFile2 = new File("./app/src/main/assets/test.txt")
 if (targetFile2.exists()) {
-    //该接口返回的是文件内容对应的byte[]
     def bytes = targetFile2.getBytes()
-    //与上述接口对应，还可以直接使用targetFile.bytes这个属性获取文件内容
     def original = new String(bytes)
-    if (original.contains("isUseGson=true")) {
+    if(!original.contains("data=")||!original.contains("pageName=")||!original.contains("isUseGson=")){
+        throw new RuntimeException("src/main/assets/test.txt文件错失必要的参数!请仔细检查")
+    }
+    //防止json数据里面存在isUseGson=true这样的字段干扰我们的判断
+    def result = original.substring(0,original.indexOf("data="))
+    if (result.contains("isUseGson=true")) {
         isUseGson = true
     }
-    if (original.contains("isUseGson=false")) {
+    if (result.contains("isUseGson=false")) {
         isUseGson = false
     }
 }

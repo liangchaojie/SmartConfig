@@ -9,6 +9,8 @@ import android.view.View;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * 用来读取配置中的信息
  */
@@ -20,6 +22,7 @@ public class SmartRouterUtil {
         }
         String pageName = "";
         String data = "";
+        boolean isUseGson = true;
         InputStream is = null;
         String msg = null;
         try {
@@ -27,22 +30,24 @@ public class SmartRouterUtil {
             byte[] bytes = new byte[is.available()];
             is.read(bytes);
             msg = new String(bytes);
+            isUseGson = msg.substring(msg.indexOf("isUseGson="), msg.indexOf("pageName=")).trim().contains("true");
             pageName = msg.substring(msg.indexOf("pageName=") + 9, msg.indexOf("data=")).trim();
             data = msg.substring(msg.indexOf("data=") + 5).trim();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        _turn2SpecifiedPage(context, pageName, data);
+        _turn2SpecifiedPage(context, isUseGson, pageName, data);
     }
 
-    private static void _turn2SpecifiedPage(Context context, String pageName, String data) {
-        if (context == null || TextUtils.isEmpty(pageName)) {
+    private static void _turn2SpecifiedPage(Context context, boolean isUseGson, String pageName, String data) {
+        if (context == null || TextUtils.isEmpty(pageName) || isUseGson) {
             return;
         }
         try {
             Class c = Class.forName(pageName);
             Intent intent = new Intent(context, c);
             intent.putExtra("data", data);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
