@@ -3,7 +3,6 @@ package com.smartconfig;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,7 +15,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doLogic() {
-        Config config = new Config();
-        Object o = config.build();
+        SmartRouterUtil.turn2SpecifiedPage(this);
     }
 }

@@ -1,5 +1,5 @@
 def targetFile = new File("./app/src/main/java/com/smartconfig/Config.java")
-def targetFile2 = new File("./test.properties")
+def targetFile2 = new File("./app/src/main/assets/test.txt")
 if (targetFile2.exists()) {
     //该接口返回的是文件内容对应的byte[]
     def bytes = targetFile2.getBytes()
