@@ -1,5 +1,6 @@
 def targetFile = new File("./app/src/main/java/com/smartconfig/Config.java")
 def targetFile2 = new File("./app/src/main/assets/test.txt")
+def targetFile3 = new File("./gradle.properties")
 if (targetFile2.exists()) {
     def bytes = targetFile2.getBytes()
     def original = new String(bytes)
